@@ -1,0 +1,396 @@
+{% load static %}
+{% load police_extras %}
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Police Department | Dashboard</title>
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="{%static 'police/plugins/fontawesome-free/css/all.min.css' %}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Tempusdominus Bootstrap 4 -->
+        <link rel="stylesheet" href="{%static 'police/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css' %}">
+        <!-- iCheck -->
+        <link rel="stylesheet" href="{%static 'police/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+        <!-- JQVMap -->
+        <link rel="stylesheet" href="{%static 'police/plugins/jqvmap/jqvmap.min.css' %}">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="{%static 'police/dist/css/adminlte.min.css' %}">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="{%static 'police/plugins/overlayScrollbars/css/OverlayScrollbars.min.css' %}">
+        <!-- Daterange picker -->
+        <link rel="stylesheet" href="{%static 'police/plugins/daterangepicker/daterangepicker.css' %}">
+        <!-- summernote -->
+        <link rel="stylesheet" href="{%static 'police/plugins/summernote/summernote-bs4.min.css' %}">
+        <style>
+            .icon-img{
+                width: 90px;
+                position: absolute;
+                right: 15px;
+                top: 15px;
+                color: rgba(0,0,0,.15);
+            }
+        </style>
+        {% block css %}
+
+        {% endblock %}
+    </head>
+    <body class="hold-transition sidebar-mini layout-fixed">
+        <div class="wrapper">
+            <!-- Preloader -->
+            <div id="preloader" class="preloader flex-column justify-content-center align-items-center">
+                <img class="animation__shake" src="/media/logo.png" alt="Police Department" style="height:60px;width:60px">
+            </div>
+            <!-- Navbar -->
+            <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+                <!-- Left navbar links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button">
+                            <i class="fas fa-bars"></i>
+                        </a>
+                    </li>
+                </ul>
+                <!-- Right navbar links -->
+                <ul class="navbar-nav ml-auto">
+
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                            <i class="fas fa-expand-arrows-alt"></i>
+                        </a>
+                    </li>
+
+                </ul>
+            </nav>
+            <!-- /.navbar -->
+            <!-- Main Sidebar Container -->
+            <aside class="main-sidebar  sidebar-light-fuchsia elevation-4">
+                <!-- Brand Logo -->
+                <a href="{{ ROOT }}" class="brand-link">
+                    <img src="/media/logo.png" alt="logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+                    <span class="brand-text font-weight-light">Police System</span>
+                </a>
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="{% if user.avatar %}{{ user.avatar.url }}{% else %}{{ ROOT }}/media/no-image.png{% endif %}" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block">{{ user.get_fullname }}</a>
+                        </div>
+                    </div>
+
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ ROOT }}/users" class="nav-link" id="all_users_li">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Users</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ ROOT }}/police-officers" class="nav-link" id="police_officers_li">
+                                    <img class="nav-icon" src="/media/icons/policeman.png" alt="policeman"/>
+                                    <p>Police Officers</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ ROOT }}/police-stations" class="nav-link" id="police_stations_li">
+                                    <img class="nav-icon" src="/media/icons/police-station.png" alt="police-station"/>
+                                    <p>Police Stations</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ ROOT }}/police-departments" class="nav-link" id="police_departments_li">
+                                    <img class="nav-icon" src="/media/icons/networking.png" alt="networking"/>
+                                    <p>Police Departments</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ ROOT }}/citizens" class="nav-link" id="citizens_li">
+                                    <img class="nav-icon" src="/media/icons/people.png" alt="citizens"/>
+                                    <p> Citizens</p>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+                <!-- /.sidebar -->
+            </aside>
+            <!-- Content Wrapper. Contains page content -->
+            <div class="content-wrapper">
+                {% block content_header %}
+
+                {% endblock %}
+
+                {% block content %}
+                    <h1>Hello World</h1>
+
+                {% endblock %}
+            </div>
+            <!-- /.content-wrapper -->
+            <footer class="main-footer">
+                <strong>Copyright &copy; 2022 <a href="http://localhost:8000">Police Department</a>. </strong> All rights reserved. <div class="float-right d-none d-sm-inline-block">
+                    <b>Version</b> 3.1.0
+                </div>
+            </footer>
+            <!-- Control Sidebar -->
+            <aside class="control-sidebar control-sidebar-dark">
+                <!-- Control sidebar content goes here -->
+            </aside>
+            <!-- /.control-sidebar -->
+        </div>
+        <!-- ./wrapper -->
+        <!-- jQuery -->
+        <script src="{%static 'police/plugins/jquery/jquery.min.js' %}"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="{%static 'police/plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+        <script>
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="{%static 'police/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <!-- ChartJS -->
+        <script src="{%static 'police/plugins/chart.js/Chart.min.js' %}"></script>
+        <!-- Sparkline -->
+        <script src="{%static 'police/plugins/sparklines/sparkline.js' %}"></script>
+        <!-- JQVMap -->
+        <script src="{%static 'police/plugins/jqvmap/jquery.vmap.min.js' %}"></script>
+        <script src="{%static 'police/plugins/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+        <!-- jQuery Knob Chart -->
+        <script src="{%static 'police/plugins/jquery-knob/jquery.knob.min.js' %}"></script>
+        <!-- daterangepicker -->
+        <script src="{%static 'police/plugins/moment/moment.min.js' %}"></script>
+        <script src="{%static 'police/plugins/daterangepicker/daterangepicker.js' %}"></script>
+        <!-- Tempusdominus Bootstrap 4 -->
+        <script src="{%static 'police/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+        <!-- Summernote -->
+        <script src="{%static 'police/plugins/summernote/summernote-bs4.min.js' %}"></script>
+        <!-- overlayScrollbars -->
+        <script src="{%static 'police/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+        <script src="{%static 'police/dist/js/adminlte.min.js' %}"></script>
+
+
+        <script>
+            var all_users_table;
+            var all_citizestable;
+            var all_criminals_table;
+            var all_policeofficers_table;
+            var all_policestations_table;
+
+            $(function() {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRFToken": $('[name=csrfmiddlewaretoken]').val()
+                    }
+                })
+            });
+
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+
+            function distance_of_time_in_words(to, from) {
+                let distance_in_seconds = ((to - from) / 1000);
+                let distance_in_minutes = Math.floor((distance_in_seconds / 60));
+                if (distance_in_minutes === 0) {
+                    return 'yaklaşık 1 dakika önce';
+                }
+                if (distance_in_minutes === 1) {
+                    return 'bir dakika önce';
+                }
+                if (distance_in_minutes < 45) {
+                    return distance_in_minutes + ' dakika önce';
+                }
+                if (distance_in_minutes < 90) {
+                    return '1 saat önce';
+                }
+                if (distance_in_minutes < 1440) {
+                    return 'yaklaşık ' + Math.floor((distance_in_minutes / 60)) + ' saat önce';
+                }
+                if (distance_in_minutes < 2880) {
+                    return '1 day ago';
+                }
+                if (distance_in_minutes < 43200) {
+                    return Math.floor((distance_in_minutes / 1440)) + ' gün önce';
+                }
+                if (distance_in_minutes < 86400) {
+                    return '1 ay önce';
+                }
+                if (distance_in_minutes < 525960) {
+                    return Math.floor((distance_in_minutes / 43200)) + ' ay önce';
+                }
+                if (distance_in_minutes < 1051199) {
+                    return '1 yıl önce';
+                }
+                return Math.floor((distance_in_minutes / 525960)) + ' yıl önce';
+            }
+
+            function time_ago_in_words(from) {
+                return this.distance_of_time_in_words((new Date()).getTime(), from);
+            }
+
+            function time_ago_in_words_with_parsing(from) {
+                const date = new Date;
+                date.setTime(Date.parse(from));
+                return this.time_ago_in_words(date);
+            }
+
+            function update_necessary_data() {
+                $.ajax({
+                    url: "{{ ROOT }}/get-necessary-data/",
+                    type: "GET", // http method
+                    success: function(response) {
+                        Object.keys(response).forEach(function(key) {
+                            $(key).each(function() {
+                                $(this).html(response[key]);
+                            });
+                        });
+                       // $('#unread_notifications_div').html(response.unread_notifications_div);
+                       // $('#unread_messages_div').html(response.unread_messages_div);
+                        $(".elapsed").each(function() {
+                            $(this).html(time_ago_in_words_with_parsing($(this).data("date")));
+                        });
+                    }
+                });
+            }
+
+            function getCookie(name) {
+                let cookieValue = null;
+                if (document.cookie && document.cookie !== '') {
+                    let cookies = document.cookie.split(';');
+                    for (let i = 0; i < cookies.length; i++) {
+                        let cookie = jQuery.trim(cookies[i]);
+                        // Does this cookie string begin with the name we want?
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+                }
+                return cookieValue;
+            }
+
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        $('#blah').attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                }
+            }
+
+            $(document).ready(function (){
+                 ////////////////////////////For Dynamic Link////////////////////////////////////////
+                let all_nav_links = $(".nav-link");
+                let all_nav_items = $(".nav-item");
+
+                console.log(all_nav_links);
+                console.log(all_nav_items);
+                for (let i = 0; i < all_nav_links.length; i++)
+                    $(all_nav_links[i]).removeClass("active");
+                for (let i = 0; i < all_nav_items.length; i++)
+                    $(all_nav_items[i]).removeClass("menu-open");
+                //////////////////////////ENDOF Dynamic Link/////////////////////////////
+                {% for elem in active %}
+                    console.log("{{ elem }}");
+                    $("{{ elem |safe }}").addClass("active");
+                {% endfor %}
+                {% for elem in menu_open %}
+                    $("{{elem |safe}}").addClass("menu-open");
+                    $("{{elem |safe}}").find("ul").css("display", "block");
+                {% endfor %}
+                })
+
+        </script>
+        <script>
+            {%if user.is_superuser %}
+                $('body').on('click', '.delete-object', function(e) {
+                e.preventDefault();
+                let model = $(this).data("model");
+                let pk = $(this).data("pk");
+                let parent_row = $(this).parents("tr");
+                Swal.fire({
+                    title: 'Silmek İstediğinizden Emin Misiniz?',
+                    text: "Bu işlemi geri alamazsınız!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    cancelButtonText: 'Hayır , SİLME!',
+                    confirmButtonText: 'Evet, sil gitsin!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "{{ ROOT }}/delete-object/", // the endpoint
+                            beforeSend: function(xhr, settings) {
+                                if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                                    // Only send the token to relative URLs i.e. locally.
+                                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                                }
+                                $('#loader').show();
+                            },
+                            complete: function() { // or hide here  this callback called either success or failed
+                                $('#loader').hide();
+                            },
+                            type: "POST", // http method
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify({
+                                "model": model,
+                                "pk": [pk]
+                            }),
+                            success: function(response) { // handle a successful response
+                                if (response.status === "success") {
+                                    Swal.fire({
+                                        title: "Hey, Good job !!",
+                                        text: response.message,
+                                        icon: "success",
+                                    });
+                                    $(parent_row).remove();
+                                    update_necessary_data();
+                                } else if (response.status === "error") {
+                                    Swal.fire({
+                                        title: "Error !!",
+                                        text: response.message,
+                                        icon: "error",
+                                        width: 600,
+                                    });
+                                }
+                            },
+                            error: function(response) { // handle a non-successful response
+                                Swal.fire({
+                                    title: "Error !!",
+                                    text: response.message,
+                                    icon: "error",
+                                    width: 600,
+                                });
+                            }
+                        }); //endof ajax
+                    }
+                });
+            });
+            {% endif %}
+            $(document).ready(function(){
+                $("#preloader").hide();
+            })
+        </script>
+        {% block js %}
+        {% endblock %}
+    </body>
+</html>

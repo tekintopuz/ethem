@@ -1,0 +1,365 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load police_extras %}
+{%block css%}
+<!-- DataTables -->
+<link rel="stylesheet" href="{%static 'police/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{%static 'police/plugins/datatables-responsive/css/responsive.bootstrap4.min.css' %}">
+<link rel="stylesheet" href="{%static 'police/plugins/datatables-buttons/css/buttons.bootstrap4.min.css' %}">
+{%endblock%}
+{% block content_header %}
+{% endblock %}
+{% block content %}
+<!-- Content Header (Page header) -->
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            {% if musteri %}
+                <div class="col-md-3">
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle" src="{%static 'police/dist/img/user4-128x128.jpg' %}" alt="User profile picture">
+                            </div>
+                            <h3 class="profile-username text-center">{{ musteri.get_full_name }}</h3>
+                            <p class="text-muted text-center">{{ musteri.company }}</p>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Toplam Sipariş</b>
+                                    <a class="float-right">{{ musteri.totalOrders }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Toplam Ürün</b>
+                                    <a class="float-right">{{ musteri.totalProducts }}</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Toplam Ödeme</b>
+                                    <a class="float-right">{{ musteri.totalSpent |floatformat:"2g"}}
+                                        <i class="fas fa-euro"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+            {% endif %}
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-header p-2">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#profile_tab" id="profile_link" data-toggle="tab">Kişi Bilgileri</a>
+                            </li>
+                            {% if musteri %}
+                            <li class="nav-item">
+                                <a class="nav-link active" href="#password_tab" id="password_link" data-toggle="tab">Şifre Değiştir</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link " href="#customer_orders_tab" data-toggle="tab">Tüm Siparişler</a>
+                            </li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="profile_tab">
+                                <form class="form-horizontal" id="profile_form">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label for="email" class="col-sm-2 col-form-label">Eposta</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="email" placeholder="Eposta" value="{{ musteri.email }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="tckn" class="col-sm-2 col-form-label">TCKN</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="tckn" placeholder="TCKN" value="{{ musteri.tckn }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="vergi_no" class="col-sm-2 col-form-label">Vergi No</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="vergi_no" placeholder="Vergi No" value="{{ musteri.vergi_no }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="first_name" class="col-sm-2 col-form-label">Adı</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="first_name" placeholder="Adı" value="{{ musteri.first_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="last_name" class="col-sm-2 col-form-label">Soyadı</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="last_name" placeholder="Adı" value="{{ musteri.last_name }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="company" class="col-sm-2 col-form-label">Company</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="company" placeholder="Company" value="{{ musteri.company }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="department" class="col-sm-2 col-form-label">Department</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="department" placeholder="Department" value="{{ musteri.department }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="door" class="col-sm-2 col-form-label">Door</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="door" placeholder="Door" value="{{ musteri.door }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="address" class="col-sm-2 col-form-label">Address</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="address" placeholder="Address" value="{{ musteri.address }}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="post_code" class="col-sm-2 col-form-label">Post Code</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" class="form-control" id="post_code" placeholder="Post Code" value="{{ musteri.post_code }}">
+                                        </div>
+                                    </div>
+                                    {% if not musteri %}
+                                        <div class="form-group row">
+                                            <label for="password" class="col-sm-2 col-form-label">Password</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="password" placeholder="Password">
+                                            </div>
+                                        </div>
+
+                                    {% endif %}
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="button" id="profile_btn" class="btn btn-success btn-block">
+                                                {% if musteri %}Güncelle{% else %}Yeni Müşteri Oluştur{% endif %}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="password_tab">
+                                <form class="form-horizontal" id="password_form">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Password</label>
+                                        <div class="col-sm-10">
+                                            <input type="password" class="form-control" id="password" placeholder="Password">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="offset-sm-2 col-sm-10">
+                                            <button type="button" id="password_btn" class="btn btn-warning btn-block">Güncelle</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="customer_orders_tab">
+                                <table id="all_orders_table" class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sipariş No.</th>
+                                        <th>Tür</th>
+                                        <th>Scala</th>
+                                        <th>Sipariş Tarihi</th>
+                                        <th>Ürün #</th>
+                                        <th>Tamamlanma Oranı</th>
+                                        <th>Onay</th>
+                                        {% if user.is_superuser %}
+                                            <th>Email</th>
+                                            <th>Sil</th>
+                                        {% endif %}
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Sipariş No.</th>
+                                        <th>Tür</th>
+                                        <th>Scala</th>
+                                        <th>Sipariş Tarihi</th>
+                                        <th>Ürün #</th>
+                                        <th>Tamamlanma Oranı</th>
+                                        <th>Onay</th>
+                                        {% if user.is_superuser %}
+                                            <th>Email</th>
+                                            <th>Sil</th>
+                                        {% endif %}
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            </div>
+                            <!-- /.tab-pane -->
+                        </div>
+                        <!-- /.tab-content -->
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+{% endblock %}
+{% block js %}
+    <!-- DataTables  & Plugins -->
+    <script src="{%static 'police/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-buttons/js/buttons.bootstrap4.min.js' %}"></script>
+    <script src="{%static 'police/plugins/jszip/jszip.min.js' %}"></script>
+    <script src="{%static 'police/plugins/pdfmake/pdfmake.min.js' %}"></script>
+    <script src="{%static 'police/plugins/pdfmake/vfs_fonts.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{%static 'police/plugins/datatables-buttons/js/buttons.colVis.min.js' %}"></script>
+
+
+
+    <script>
+        $(function() {
+            all_orders_table = $("#all_orders_table").DataTable({
+                "pageLength": 50,
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"],
+                "order": [
+                    [0, "desc"]
+                ],
+                "fnDrawCallback": function(oSettings) {
+                    $(".myopentip").each(function() {
+                        $(this).opentip($(this).data("ot"), {
+                            delay: 0
+                        });
+                    });
+                },
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "{{ ROOT }}/datatable/tum-siparisler/",
+                    "data":{
+                        "my_orders": false,
+                        "userid": {{ musteri.userid}},
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        $("body").on('click', "#password_btn",  function (){
+            $.ajax({
+                url: "{{ ROOT }}/update-password/{{ musteri.pk }}/", // the endpoint
+                beforeSend: function(xhr, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                },
+                type: "POST", // http method
+                data: {
+                    "pk": {{ musteri.pk }},
+                    "password": $("#password").val()
+                },
+                success: function(response) { // handle a successful response
+                    if (response.status === "success") {
+                        all_orders_table.ajax.reload();
+                        Swal.fire({
+                            title: "Hey, Good job !!",
+                            text: response.message,
+                            icon: "success",
+                        });
+                    } else if (response.status === "error") {
+                        Swal.fire({
+                            title: "Error !!",
+                            text: response.message,
+                            icon: "error",
+                            width: 600,
+                        });
+                    }
+                },
+                error: function(response) { // handle a non-successful response
+                    Swal.fire({
+                        title: "Error !!",
+                        text: response.message,
+                        icon: "error",
+                        width: 600,
+                    });
+                }
+            }); //endof ajax
+
+        });
+        $("body").on('click', "#profile_btn",  function (){
+            $.ajax({
+                url: "{{ ROOT }}/musteri/{{ musteri.pk }}/", // the endpoint
+                beforeSend: function(xhr, settings) {
+                    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+                        // Only send the token to relative URLs i.e. locally.
+                        xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+                    }
+                },
+                type: "POST", // http method
+                data: {
+                    "email": $("#email").val(),
+                    "tckn": $("#tckn").val(),
+                    "vergi_no": $("#vergi_no").val(),
+                    "first_name": $("#first_name").val(),
+                    "last_name": $("#last_name").val(),
+                    "company": $("#company").val(),
+                    "department": $("#department").val(),
+                    "door": $("#door").val(),
+                    "address": $("#address").val(),
+                    "post_code": $("#post_code").val(),
+                    "password": $("#password").val(),
+                },
+                success: function(response) { // handle a successful response
+                    if (response.status === "success") {
+                        all_orders_table.ajax.reload();
+                        Swal.fire({
+                            title: "Hey, Good job !!",
+                            text: response.message,
+                            icon: "success",
+                        });
+                    } else if (response.status === "error") {
+                        Swal.fire({
+                            title: "Error !!",
+                            text: response.message,
+                            icon: "error",
+                            width: 600,
+                        });
+                    }
+                },
+                error: function(response) { // handle a non-successful response
+                    Swal.fire({
+                        title: "Error !!",
+                        text: response.message,
+                        icon: "error",
+                        width: 600,
+                    });
+                }
+            }); //endof ajax
+
+        })
+    </script>
+{% endblock %}
