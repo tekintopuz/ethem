@@ -19,7 +19,7 @@ from user.models import User
 from utils.util import get_next_id
 
 
-def handler401(request, template_name='police/401.html'):
+def handler401(request, template_name='401.html'):
     context = {}
     if "status" in request.session:
         context["status"] = request.session["status"]
@@ -31,7 +31,7 @@ def handler401(request, template_name='police/401.html'):
     return HttpResponse(template.render(context, request))
 
 
-def handler403(request, template_name='police/403.html'):
+def handler403(request, template_name='403.html'):
     context = {}
     if "status" in request.session:
         context["status"] = request.session["status"]
@@ -43,7 +43,7 @@ def handler403(request, template_name='police/403.html'):
     return HttpResponse(template.render(context, request))
 
 
-def handler404(request, template_name='police/404.html'):
+def handler404(request, template_name='404.html'):
     context = {}
     if "status" in request.session:
         context["status"] = request.session["status"]
@@ -55,7 +55,7 @@ def handler404(request, template_name='police/404.html'):
     return HttpResponse(template.render(context, request))
 
 
-def handler500(request, template_name='police/500.html'):
+def handler500(request, template_name='500.html'):
     context = {}
     if "status" in request.session:
         context["status"] = request.session["status"]
@@ -67,7 +67,7 @@ def handler500(request, template_name='police/500.html'):
     return HttpResponse(template.render(context, request))
 
 
-def handler501(request, template_name='police/501.html'):
+def handler501(request, template_name='501.html'):
     context = {}
     if "status" in request.session:
         context["status"] = request.session["status"]
@@ -89,7 +89,7 @@ def server_error(request, error_code):
         context["message"] = request.session["message"]
         del request.session["message"]
 
-    template = loader.get_template("police/" + str(error_code) + ".html")
+    template = loader.get_template(str(error_code) + ".html")
     return HttpResponse(template.render(context, request))
 
 
@@ -101,7 +101,7 @@ class HomeView(LoginRequiredMixin, View):
             'my_orders': True
 
         }
-        template = loader.get_template('police/index.html')
+        template = loader.get_template('index.html')
         return HttpResponse(template.render(context, request))
 
 
@@ -297,8 +297,8 @@ class AllUsersView(LoginRequiredMixin, View):
 class AllUsersDatatableView(LoginRequiredMixin, BaseDatatableView):
     model = User
 
-    columns = ['id', 'avatar', 'first_name', 'second_name', 'last_name', 'email', 'phone', 'mobile_phone', 'id']
-    order_columns = ['id', 'avatar', 'first_name', 'second_name', 'last_name', 'email', 'phone', 'mobile_phone', 'id']
+    columns = ['id','avatar', 'username', 'email', 'first_name', 'last_name',  'phone', 'id']
+    order_columns = ['id','avatar', 'username', 'email', 'first_name', 'last_name',  'phone', 'id']
     max_display_length = 100
     uid = None
     login_secret = None
@@ -318,9 +318,7 @@ class AllUsersDatatableView(LoginRequiredMixin, BaseDatatableView):
                 Q(first_name__icontains=search) | \
                 Q(last_name__icontains=search) | \
                 Q(email__icontains=search) | \
-                Q(phone__icontain=search) | \
-                Q(mobile_phone__icontains=search) | \
-                Q(dahili__icontains=search)
+                Q(phone__icontain=search)
             qs = qs.filter(q)
             return qs
 
@@ -336,19 +334,16 @@ class AllUsersDatatableView(LoginRequiredMixin, BaseDatatableView):
                 gruplar += g.name + " | "
 
             json_data.append([
-                "<a href='/kullanici-duzenle/" + str(item.id) + "'>" + str(item.id) + "</a>",
+                "<a href='/users/" + str(item.id) + "'>" + str(item.id) + "</a>",
                 "<img style='width:60px' class='image popup-image' src='" +
                 (item.avatar.url if item.avatar else "/media/no-image.png") + "'/>",
+                item.username,
+                item.email,
                 item.first_name,
-                item.second_name,
                 item.last_name,
-                "<a href='/kullanici-duzenle/" + str(item.id) + "'>" + str(item.email) + "</a>",
                 item.phone,
-                item.mobile_phone,
-                item.dahili,
-                gruplar,
-                "<a href='/kullanici-duzenle/" + str(item.id) +
-                "' class='btn btn-success btn-block' style='margin:1px'>Detay</a>"
+                "<a href='/users/" + str(item.id) +
+                "' class='btn btn-success btn-block' style='margin:1px'>EDIT</a>"
                 "<button class='btn btn-danger btn-block delete' style='margin:1px' data-pk='" +
                 str(item.id) + "' data-model='User'>SİL</button>",
             ])

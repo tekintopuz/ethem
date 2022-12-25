@@ -14,14 +14,14 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>All Users</h1>
+                    <h1>All Police Officers</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
                             <a href="{{ ROOT }}">Home Page</a>
                         </li>
-                        <li class="breadcrumb-item active">All Users</li>
+                        <li class="breadcrumb-item active">All Police Officers</li>
                     </ol>
                 </div>
             </div>
@@ -35,20 +35,16 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">All Users Table</h3>
+                            <h3 class="card-title">All Police Officers Table</h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="all_users_table" class="table table-bordered table-striped">
+                            <table id="all_policeofficers_table" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Avatar</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>FirstName</th>
-                                        <th>LastName</th>
-                                        <th>Phone</th>
+                                        <th>Rank</th>
+                                        <th>Tenure</th>
                                         <th>Actions</th>
                                     </tr>
                                 </thead>
@@ -56,12 +52,8 @@
                                 <tfoot>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Avatar</th>
-                                        <th>Username</th>
-                                        <th>Email</th>
-                                        <th>FirstName</th>
-                                        <th>LastName</th>
-                                        <th>Phone</th>
+                                        <th>Rank</th>
+                                        <th>Tenure</th>
                                         <th>Actions</th>
                                     </tr>
                                 </tfoot>
@@ -97,7 +89,7 @@
 
     <script>
         $(document).ready(function () {
-            all_users_table = $("#all_users_table").DataTable({
+            all_policeofficers_table = $("#all_policeofficers_table").DataTable({
                 "pageLength": 10,
                 "responsive": true,
                 "lengthChange": false,
@@ -109,7 +101,7 @@
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    "url": "{{ ROOT }}/datatable/all-users/",
+                    "url": "{{ ROOT }}/datatable/all-police-officers/",
                     "data":{
                     }
                 },
